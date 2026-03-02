@@ -1,39 +1,30 @@
-name: Generate Snake 🐍
+name: Generate 3D City 🏙️
 
-# 🕒 Triggers: Runs every 12 hours OR manually
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 18 * * *" # Run once a day at 6 PM
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
-# 🔐 Permissions to write to the branch
 permissions:
   contents: write
 
 jobs:
-  generate:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-
+    name: generate-github-profile-3d-contrib
     steps:
-      # 1. Generate the Snake Animation
-      - name: Generate GitHub Contribution Snake
-        uses: Platane/snk@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
-            dist/github-contribution-grid-snake-matrix.svg?color_snake=#00ff41&color_dots=#0d1117,#0e4429,#006d32,#26a641,#39d353
-
-      # 2. Push the generated SVG to the output branch
-      - name: Push to 'output' branch
-        uses: crazy-max/ghaction-github-pages@v4
-        with:
-          target_branch: output
-          build_dir: dist
+      - uses: actions/checkout@v3
+      
+      - name: Generate 3D Graph
+        uses: yoshi389105/github-profile-3d-contrib@0.7.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+          
+      - name: Commit & Push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A .
+          git commit -m "generated 3d graph"
+          git push
