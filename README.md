@@ -145,7 +145,7 @@ print(me)
 ## 🐍 Contribution Snake
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/SamR-9X/SamR-9X/output/snake-dark.svg" />
+ <img src="https://github.com/SamR-9X/SamR-9X/blob/output/github-contribution-grid-snake-matrix.svg" alt="Matrix 
 </div>
 
 ---
